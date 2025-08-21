@@ -38,7 +38,6 @@ const FacialExpression = () => {
         .withFaceExpressions();
         console.log(detections[0].expressions);
         
-        if()
         
       if (detections.length > 0) {
         const expressions = detections[0].expressions;
