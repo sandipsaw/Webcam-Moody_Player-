@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as faceapi from "face-api.js";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BsFillPauseCircleFill } from "react-icons/bs";
-
+import axios from 'axios'
 const FacialExpression = () => {
   const videoRef = useRef(null);
 
@@ -36,17 +36,38 @@ const FacialExpression = () => {
       .withFaceExpressions();
     console.log(detections[0].expressions);
 
-    if (!detections || detections.length === 0) {
-      console.log("Face not found please  show your face to get music as your mood");
-    }
+    
+        let mostprobableExpression = 0
+        let _mood = ''
 
-    if (detections.length > 0) {
-      const expressions = detections[0].expressions;
-      const topExpression = Object.entries(expressions)
-        .reduce((max, curr) => (curr[1] > max[1] ? curr : max));
-      console.log("Dominant expression:", topExpression[0]);
-    }
+          if(!detections || detections.length === 0){
+            console.log("Face not found");
+            
+          }
+
+        for(const expression of Object.keys(detections[0].expressions)){
+          // console.log("moods",mood);
+          if(detections[0].expressions[expression]>mostprobableExpression){
+            mostprobableExpression=detections[0].expressions[expression]
+            _mood = expression
+          }
+        }
+        console.log(_mood);
+
+    // if (detections.length > 0) {
+    //   const expressions = detections[0].expressions;
+    //   const topExpression = Object.entries(expressions)
+    //     .reduce((max, curr) => (curr[1] > max[1] ? curr : max));
+    //   console.log("Dominant expression:", topExpression[0]);
+    // }
+
+    axios.get(`http://localhost:3000/songs?mood=${mostprobableExpression}`)
+    .then(response=>{
+      console.log("data",response.data);
+    })
   };
+
+
 
   const [songs, setsongs] = useState([
     {
