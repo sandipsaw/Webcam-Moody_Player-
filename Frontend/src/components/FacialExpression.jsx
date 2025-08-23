@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as faceapi from "face-api.js";
-import { FaCirclePlay } from "react-icons/fa6";
-import { BsFillPauseCircleFill } from "react-icons/bs";
+
 import axios from 'axios'
-const FacialExpression = () => {
+const FacialExpression = ({setsongs}) => {
   const videoRef = useRef(null);
 
   const startVideo = () => {
@@ -61,72 +60,41 @@ const FacialExpression = () => {
     //   console.log("Dominant expression:", topExpression[0]);
     // }
 
-    axios.get(`http://localhost:3000/songs?mood=${mostprobableExpression}`)
+    axios.get(`http://localhost:3000/songs?mood=${_mood}`)
     .then(response=>{
-      console.log("data",response.data);
+      console.log(response.data);
+      setsongs(response.data.songs)
     })
   };
 
 
 
-  const [songs, setsongs] = useState([
-    {
-      title: "saiyara",
-      artistname: "sandip saw",
-      mood: "happy"
-    },
-    {
-      title: "saiyara",
-      artistname: "sandip saw",
-      mood: "happy"
-    },
-    {
-      title: "saiyara",
-      artistname: "sandip saw",
-      mood: "happy"
-    }
-  ])
-  const render = songs.map((song) => (
-    <div className="p-5 rounded-[15px]  bg-yellow-300 mt-5 flex items-center justify-between ">
-      <div className="">
-        <p>{song.title}</p>
-        <p>{song.artistname}</p>
-      </div>
-      <div className="flex">
-        <BsFillPauseCircleFill />
-        <FaCirclePlay />
-      </div>
-    </div>
-  ))
+  
   return (
-    <div className="flex gap-20 justify-center">
-      <div className="w-2/5 ml-5 mt-5">
-        <h2 className="lg:text-[36px] sm:text-[28px] leading-10 text-black font-semibold mb-1">
-          Live Mood Detection    🎦
+    
+      <div className="lg:w-2/5 w-1/1 lg:sticky lg:top-0">
+        <h2 className="lg:text-[36px] sm:text-[44px] text-[36px] leading-10 text-black font-semibold mb-1">
+          Live Mood Detection
         </h2>
-        <p className="text-black mt-2 mb-2 text-center text-[20px] font-semibold leading-6">
-          The app analyzes your facial expressions in real time and classifies your mood as happy, sad, angry, neutral, or surprised. Based on your mood, it instantly queues and plays a matching track.
+        <p className="text-gray-800  mt-2 mb-2 lg:text-[20px] lg:leading-6 sm:text-[30px] text-[24px] font-semibold leading-6 sm:leading-9">
+          The app analyzes your facial expressions in real time and classifies your mood as happy, sad, angry, or surprised. Based on your mood, it instantly queues and plays a matching track.
         </p>
         <div className="relative">
           <video
             ref={videoRef}
             autoPlay
             muted
-            className="mt-3 rounded"
+            className="mt-3 rounded sm:w-full"
           />
-          <p className="absolute right-5 top-2 text-xl text-black italic">
-            Look at the screen — we’ll play your vibe...
+          <p className="absolute p-2 sm:p-0 right-5 sm:top-2 top-1 text-xl text-black italic">
+            Look at the screen — we’ll play your vibe
           </p>
         </div>
         <button onClick={detectFace} className="w-full rounded border-green-600 bg-green-500 px-10 py-3 border text-xl font-semibold text-black mt-2">
           Moodify Songs
         </button>
       </div>
-      <div className="  mt-5">
-      <p className="text-5xl font-semibold mb-5">Related Songs as your mood</p>
-        {render}
-      </div>
-    </div>
+
   );
 };
 
