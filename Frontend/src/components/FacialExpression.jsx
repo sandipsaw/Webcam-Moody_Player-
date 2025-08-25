@@ -76,6 +76,7 @@ const FacialExpression = ({setsongs}) => {
         <h2 className="lg:text-[36px] sm:text-[44px] text-[36px] leading-10 text-black font-semibold mb-1">
           Live Mood Detection
         </h2>
+        
         <p className="text-gray-800  mt-2 mb-2 lg:text-[20px] lg:leading-6 sm:text-[30px] text-[24px] font-semibold leading-6 sm:leading-9">
           The app analyzes your facial expressions in real time and classifies your mood as happy, sad, angry, or surprised. Based on your mood, it instantly queues and plays a matching track.
         </p>
