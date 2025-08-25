@@ -60,7 +60,7 @@ const FacialExpression = ({setsongs}) => {
     //   console.log("Dominant expression:", topExpression[0]);
     // }
 
-    axios.get(`http://localhost:3000/songs?mood=${_mood}`)
+    axios.get(`https://webcam-moody-player.onrender.com/songs?mood=${_mood}`)
     .then(response=>{
       console.log(response.data);
       setsongs(response.data.songs)
